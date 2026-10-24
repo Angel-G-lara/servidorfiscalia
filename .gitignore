@@ -1,0 +1,8 @@
+.data/
+.venv/
+__pycache__/
+*.pyc
+*.enc
+*.log
+datos_cliente/
+respaldo_restaurado/
