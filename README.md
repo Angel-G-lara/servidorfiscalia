@@ -1,6 +1,20 @@
-# Servidor local de gestión documental
+# Servidor Fiscalía - Backend Node.js + Supabase
 
-Prototipo funcional 0.1.0 para demostrar el recorrido documental con datos sintéticos. Incluye servidor, interfaz web, cliente de sincronización de referencia y pruebas automatizadas. No es una aplicación Android ni un despliegue institucional.
+Backend Node.js para gestión documental fiscalía con Supabase y Google OAuth. Desplegado como monorepo en Vercel.
+
+## Versión Node.js (Actual)
+
+Este proyecto ahora usa un backend en Node.js con:
+- ✅ Express.js + Supabase
+- ✅ Google OAuth authentication
+- ✅ JWT tokens
+- ✅ REST API
+- ✅ Sistema de roles (admin, revisor, agente, auditor)
+- ✅ Despliegue en Vercel
+
+## Versión Python (Legacy)
+
+El backend Python original está incluido pero no se usa en producción. Ver directorio `backend/` para la versión actual.
 
 ## Abrir ahora
 

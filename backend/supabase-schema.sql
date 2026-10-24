@@ -77,51 +77,51 @@ ALTER TABLE versions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE audit ENABLE ROW LEVEL SECURITY;
 ALTER TABLE device_events ENABLE ROW LEVEL SECURITY;
 
--- Políticas RSL para usuarios
+-- Políticas RLS para usuarios
 CREATE POLICY "Admins pueden ver todos los usuarios" ON users
   FOR SELECT USING (role = 'admin');
 
 CREATE POLICY "Usuarios pueden ver su propio perfil" ON users
-  FOR SELECT USING (id = auth.uid());
+  FOR SELECT USING (id = auth.uid()::text);
 
 -- Políticas RLS para documentos
 CREATE POLICY "Usuarios pueden ver documentos de su unidad" ON documents
-  FOR SELECT USING (unit = (SELECT unit FROM users WHERE id = auth.uid()));
+  FOR SELECT USING (unit = (SELECT unit FROM users WHERE id = auth.uid()::text));
 
 CREATE POLICY "Usuarios pueden crear documentos en su unidad" ON documents
-  FOR INSERT WITH CHECK (unit = (SELECT unit FROM users WHERE id = auth.uid()) AND owner = auth.uid());
+  FOR INSERT WITH CHECK (unit = (SELECT unit FROM users WHERE id = auth.uid()::text) AND owner = auth.uid()::text);
 
 -- Políticas RLS para versiones
 CREATE POLICY "Usuarios pueden ver versiones de su unidad" ON versions
   FOR SELECT USING (
-    doc_id IN (SELECT id FROM documents WHERE unit = (SELECT unit FROM users WHERE id = auth.uid()))
+    doc_id IN (SELECT id FROM documents WHERE unit = (SELECT unit FROM users WHERE id = auth.uid()::text))
   );
 
 CREATE POLICY "Usuarios pueden crear versiones" ON versions
-  FOR INSERT WITH CHECK (author = auth.uid());
+  FOR INSERT WITH CHECK (author = auth.uid()::text);
 
 CREATE POLICY "Revisores pueden actualizar versiones" ON versions
   FOR UPDATE USING (
-    author = auth.uid() OR 
-    (SELECT role FROM users WHERE id = auth.uid()) IN ('admin', 'revisor')
+    author = auth.uid()::text OR 
+    (SELECT role FROM users WHERE id = auth.uid()::text) IN ('admin', 'revisor')
   );
 
 -- Políticas RLS para auditoría
 CREATE POLICY "Admins pueden ver toda la auditoría" ON audit
-  FOR SELECT USING ((SELECT role FROM users WHERE id = auth.uid()) = 'admin');
+  FOR SELECT USING ((SELECT role FROM users WHERE id = auth.uid()::text) = 'admin');
 
 CREATE POLICY "Usuarios pueden ver auditoría de su unidad" ON audit
-  FOR SELECT USING (unit = (SELECT unit FROM users WHERE id = auth.uid()));
+  FOR SELECT USING (unit = (SELECT unit FROM users WHERE id = auth.uid()::text));
 
 CREATE POLICY "Admins pueden insertar auditoría" ON audit
-  FOR INSERT WITH CHECK ((SELECT role FROM users WHERE id = auth.uid()) = 'admin');
+  FOR INSERT WITH CHECK ((SELECT role FROM users WHERE id = auth.uid()::text) = 'admin');
 
 -- Políticas RLS para eventos del dispositivo
 CREATE POLICY "Usuarios pueden ver sus propios eventos" ON device_events
-  FOR SELECT USING (user_id = auth.uid());
+  FOR SELECT USING (user_id = auth.uid()::text);
 
 CREATE POLICY "Usuarios pueden insertar sus eventos" ON device_events
-  FOR INSERT WITH CHECK (user_id = auth.uid());
+  FOR INSERT WITH CHECK (user_id = auth.uid()::text);
 
 -- Crear usuario admin inicial
 INSERT INTO users (id, username, password, role, unit, active)
