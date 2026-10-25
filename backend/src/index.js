@@ -90,6 +90,23 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Ruta raíz
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Backend Fiscalía API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      auth: '/api/auth/*',
+      documents: '/api/documents/*',
+      users: '/api/users/*',
+      audit: '/api/audit/*'
+    },
+    documentation: 'https://github.com/Angel-G-lara/servidorfiscalia'
+  });
+});
+
 // Manejo de errores
 app.use((err, req, res, next) => {
   console.error(err.stack);
