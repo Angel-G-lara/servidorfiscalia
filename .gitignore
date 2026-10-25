@@ -10,7 +10,6 @@ __pycache__/
 datos_cliente/
 respaldo_restaurado/
 tests/
-web/
 ejemplos/
 evidencia/
 *.sqlite3

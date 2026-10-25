@@ -10,7 +10,6 @@ venv/
 
 # Ignorar directorios de Python
 tests/
-web/
 ejemplos/
 evidencia/
 .data/
