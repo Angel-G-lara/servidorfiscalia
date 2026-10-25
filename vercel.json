@@ -1,36 +1,25 @@
 {
-  "buildCommand": "cd backend && npm install",
-  "outputDirectory": "backend",
-  "installCommand": "cd backend && npm install",
-  "framework": null,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "backend": {
+      "root": "backend",
+      "framework": "express",
+      "buildCommand": "npm install",
+      "installCommand": "npm install"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index"
-    }
-  ],
-  "functions": {
-    "api/index.js": {
-      "maxDuration": 30
-    }
-  },
-  "headers": [
+      "destination": {
+        "service": "backend"
+      }
+    },
     {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        }
-      ]
+      "source": "/",
+      "destination": {
+        "service": "backend"
+      }
     }
   ]
 }
