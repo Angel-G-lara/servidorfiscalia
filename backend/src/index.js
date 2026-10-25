@@ -103,8 +103,8 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Ruta no encontrada' });
 });
 
-// Solo escuchar si no estamos en Vercel (serverless)
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+// Solo escuchar en desarrollo local
+if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Servidor corriendo en puerto ${PORT}`);
     console.log(`Ambiente: ${process.env.NODE_ENV || 'development'}`);
